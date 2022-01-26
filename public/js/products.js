@@ -4,6 +4,10 @@ async function createProduct() {
     let form = document.getElementById('createProduct');
     let name = form.create_name.value;
     let price = form.create_price.value;
+    let description = form.description.value;
+    let image = form.url_image.value;
+    let category_id = form.category_id.value;
+    let brand = form.brand.value;
 
     return await fetch(`/products/store`, {
         credentials: "same-origin",
@@ -14,8 +18,7 @@ async function createProduct() {
             'X-CSRF-Token': CSRF
         },
         body: JSON.stringify({
-            name,
-            price
+            name, price, description, image, category_id, brand
         })
     })
     .then(response => response.json())
@@ -38,10 +41,22 @@ function buildProduct(product) {
     let obj = JSON.stringify(product);
     let price = parseFloat(product.price).toFixed(2);
 
+    console.log(product);
+    
     $('#table-products').prepend(`
         <tr class="products" id="product-${product.id}">
-            <td class="border" id="product-name-${product.id}">${product.name}</td>
+            <td class="border" id="product-name-${product.id}">
+                <a href='/products/${product.slug}'>${product.name}</a>
+            </td>
             <td class="border" id="product-price-${product.id}">${price}</td>
+            <td class="border" id="product-image-${product.image}">
+                <img
+                    src="${product.image}"
+                    alt="${product.name}"
+                    class="rounded img-fluid w-25 p-3"
+                >
+            </td>
+            <td class="border" id="product-brand-${product.brand}">${product.brand}</td>
             <td>
                 <span class="pointer"
                     id="openModal"
@@ -66,6 +81,12 @@ function setDataModal(data) {
     document.getElementById('valueId').value = data.getAttribute('data-id');
     document.getElementById('nameId').value = data.getAttribute('data-name');
     document.getElementById('priceId').value = data.getAttribute('data-price');
+    document.getElementById('description').value = data.getAttribute('data-description');
+    document.getElementById('brand').value = data.getAttribute('data-brand');
+    document.getElementById('url_image').value = data.getAttribute('data-url_image');
+    
+    document.getElementsByClassName('category')[0].value = data.getAttribute('data-category');
+    document.getElementsByClassName('category')[1].value = data.getAttribute('data-category');
 }
 
 async function editProduct() {
@@ -75,6 +96,10 @@ async function editProduct() {
     let id = form.valueId.value;
     let name = form.edit_name.value;
     let price = form.edit_price.value;
+    let description = form.description.value;
+    let image = form.url_image.value;
+    let category_id = form.category_id.value;
+    let brand = form.brand.value;
 
     return await fetch(`/products/update/${id}`, {
         credentials: "same-origin",
@@ -85,15 +110,14 @@ async function editProduct() {
             'X-CSRF-Token': CSRF
         },
         body: JSON.stringify({
-            name,
-            price
+            name, price, description, image, category_id, brand
         })
     })
     .then(response => response.json())
     .then(res => {
         if (res.data) {
             goodJob('Product edited!', 'The product was edited successfully');
-            updateProduct(res.data);
+            updateProduct(res.data, id);
         } else {
             somethingIsWrong(res.message, res.errors);
         }
@@ -104,18 +128,21 @@ async function editProduct() {
     })
 }
 
-function updateProduct(data) {
-    document.getElementById(`product-name-${data.id}`).innerText = data.name;
-    document.getElementById(`product-price-${data.id}`).innerText = parseFloat(data.price).toFixed(2);
+function updateProduct(data, old_slug) {
+    document.getElementById(`product-name-${old_slug}`).innerHTML = `<a href='/products/${data.slug}'>${data.name}</a>`;
+    document.getElementById(`product-price-${old_slug}`).innerText = parseFloat(data.price).toFixed(2);
+    document.getElementById(`product-image-${old_slug}`).src = data.image;
+    document.getElementById(`product-brand-${old_slug}`).innerText = data.brand;
+
     document.getElementById('openModal').setAttribute('data-name', data.name);
     document.getElementById('openModal').setAttribute('data-price', data.price);
-    document.getElementById('openModal').setAttribute('data-id', data.id);
+    document.getElementById('openModal').setAttribute('data-id', data.slug);
 }
 
 async function deleteProduct(data) {
-    let contentProduct = document.getElementById(`product-${data.id}`);
+    let contentProduct = document.getElementById(`product-${data.slug}`);
 
-    return await fetch(`/products/delete/${data.id}`, {
+    return await fetch(`/products/delete/${data.slug}`, {
         credentials: "same-origin",
         method: 'DELETE',
         headers: {

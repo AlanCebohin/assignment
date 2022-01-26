@@ -1,7 +1,7 @@
 <div class="col-10 mx-auto">
     <div class="row">
         <h1 class="mx-auto mt-5">
-            <img src="https://calcueasy.com/wp-content/uploads/2018/01/calcueasy_logo_blue_retina.png" alt="">
+            "Products"
         </h1>
     </div>
 </div>
@@ -73,7 +73,3 @@ php artisan dusk --filter guests_can_create_products
 php artisan dusk --filter guest_can_delete_products
 php artisan dusk --filter guests_can_edit_products
 ```
-
-## Demo
-
-<img src="/public/img/sample.gif" alt="Sample">

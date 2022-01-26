@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <title>CalcuEasy</title>
+        <title>Products</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -17,6 +17,9 @@
 
         <!-- Sweet alert -->
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <!-- Kit's Code Fontawesome to a Project -->
+        <script src="https://kit.fontawesome.com/51be0bde01.js" crossorigin="anonymous"></script>
 
     </head>
 

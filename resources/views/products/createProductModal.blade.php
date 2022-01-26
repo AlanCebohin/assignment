@@ -9,15 +9,38 @@
         </div>
         <div class="modal-body">
             <form id="createProduct" class="createProduct">
-                <label for="create_name">{{ __('Name') }}</label>
-                <input type="text" class="form-control" name="create_name" dusk="create_name">
+                <div class="mb-3">
+                    <label for="create_name">{{ __('Name') }}</label>
+                    <input type="text" class="form-control" name="create_name" dusk="create_name">
+                </div>
 
-                <label for="create_price" class="mt-3">{{ __('Price') }}</label>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon1">{{ env('CURRENCY') }}</span>
+                <div class="mb-3">
+                    @include('products.categories')
+                </div>
+
+                <div class="mb-3">
+                    <label for="create_description">{{ __('Description') }}</label>
+                    <textarea class="form-control" name="description" cols="30" rows="3"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="brand">{{ __('Brand') }}</label>
+                    <input type="text" class="form-control" name="brand" dusk="brand">
+                </div>
+
+                <div class="mb-3">
+                    <label for="url_image">{{ __('URL Image') }}</label>
+                    <input type="text" class="form-control" name="url_image" dusk="url_image" placeholder="https://image.png">
+                </div>
+
+                <div class="mb-3">
+                    <label for="create_price" class="mt-3">{{ __('Price') }}</label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">{{ env('CURRENCY') }}</span>
+                        </div>
+                        <input type="text" class="form-control" name="create_price" dusk="create_price">
                     </div>
-                    <input type="text" class="form-control" name="create_price" dusk="create_price">
                 </div>
             </form>
         </div>
