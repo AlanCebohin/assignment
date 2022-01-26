@@ -54,10 +54,6 @@ php artisan serve
 
 8) That's it! Your project should be up and running
 
-If everything looks correct your "home" page should look like this:
-
-<img src="/public/img/home.png" alt="home">
-
 ## Tests
 
 ### Unit
